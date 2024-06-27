@@ -4,6 +4,8 @@ import BarChart from "./components/BarChart";
 import SingleLineChart from "./components/SingleLineChart";
 import Navbar from "./components/Navbar";
 import Table from "./components/Table";
+import StatBox from "./components/StatBox";
+import DoubleLineChart from "./components/DoubleLineChart";
 
 function App() {
   let jsonData = {
@@ -23,12 +25,16 @@ function App() {
     },
   };
 
-  let colTitles = ["#", "First", "Last"];
+  let colTitles = ["", "A", "B"];
 
-  let rows = [
-    ["1", "Visvam", "Rajesh"],
-    ["2", "Vibhu", "Rajesh"],
-  ];
+  const dictToArray = (dictionary: {
+    "0": number;
+    "1": number;
+    "3": number;
+    "4": number;
+  }) => {
+    return [dictionary[0], dictionary[1], dictionary[3], dictionary[4]];
+  };
 
   return (
     <>
@@ -46,7 +52,18 @@ function App() {
         values={jsonData.chart_data.stat_dist.values}
       />
 
-      <Table colTitles={colTitles} rows={rows} />
+      <Table classTitles={colTitles} stat_by_class={jsonData.stat_by_class} />
+
+      <StatBox stat_data={jsonData.stat_data} />
+
+      <DoubleLineChart
+        title="class_based_dist"
+        firstLine={jsonData.chart_data.class_based_dist[0].classname}
+        secondLine={jsonData.chart_data.class_based_dist[1].classname}
+        labels={["0", "1", "3", "4"]}
+        valueSetOne={dictToArray(jsonData.chart_data.class_based_dist[0].data)}
+        valueSetTwo={dictToArray(jsonData.chart_data.class_based_dist[1].data)}
+      />
     </>
   );
 }

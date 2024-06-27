@@ -1,29 +1,48 @@
 interface TableProps {
-  colTitles: string[];
-  rows: string[][];
+  classTitles: string[];
+  stat_by_class: {
+    count: {
+        A: number;
+        B: number;
+    };
+    mean: {
+        A: number;
+        B: number;
+    };
+    std: {
+        A: number;
+        B: number;
+    };
+};
 }
 
-const Table = ({ colTitles, rows }: TableProps) => {
+const Table = ({ classTitles, stat_by_class }: TableProps) => {
   return (
     <>
       <table className="table">
         <thead>
           <tr>
-            {colTitles.map((title) => (
+            {classTitles.map((title) => (
               <th scope="col">{title}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {rows.map((row) => (
             <tr>
-              {row.map((item, index) => (
-                <>
-                  {index == 0 ? <th scope="row">{item}</th> : <td>{item}</td>}
-                </>
-              ))}
+              <th scope="row">count</th> 
+              <td>{stat_by_class.count.A}</td>
+              <td>{stat_by_class.count.B}</td>
             </tr>
-          ))}
+            <tr>
+              <th scope="row">mean</th> 
+              <td>{stat_by_class.mean.A}</td>
+              <td>{stat_by_class.mean.B}</td>
+            </tr>
+            <tr>
+              <th scope="row">std</th> 
+              <td>{stat_by_class.std.A}</td>
+              <td>{stat_by_class.std.B}</td>
+            </tr>
         </tbody>
       </table>
     </>
