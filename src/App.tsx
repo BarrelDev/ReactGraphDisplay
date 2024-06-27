@@ -37,34 +37,75 @@ function App() {
   };
 
   return (
-    <>
+    <div className="align-middle">
       <Navbar title="Graphs" />
-      <BarChart
-        title="class_dist"
-        labels={jsonData.chart_data.class_dist.labels}
-        values={jsonData.chart_data.class_dist.values}
-      />
-      <SingleLineChart
-        title="stat_dist"
-        labels={jsonData.chart_data.stat_dist.labels.map((item) =>
-          item.toString()
-        )}
-        values={jsonData.chart_data.stat_dist.values}
-      />
 
-      <Table classTitles={colTitles} stat_by_class={jsonData.stat_by_class} />
-
-      <StatBox stat_data={jsonData.stat_data} />
-
-      <DoubleLineChart
-        title="class_based_dist"
-        firstLine={jsonData.chart_data.class_based_dist[0].classname}
-        secondLine={jsonData.chart_data.class_based_dist[1].classname}
-        labels={["0", "1", "3", "4"]}
-        valueSetOne={dictToArray(jsonData.chart_data.class_based_dist[0].data)}
-        valueSetTwo={dictToArray(jsonData.chart_data.class_based_dist[1].data)}
-      />
-    </>
+      <div className="container-fluid overflow-hidden text-center">
+        <div className="row mb-3">
+          <div className="col">
+            <div className="card">
+              <div className="card-body">
+                <BarChart
+                  title="class_dist"
+                  labels={jsonData.chart_data.class_dist.labels}
+                  values={jsonData.chart_data.class_dist.values}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="col">
+            <div className="card">
+              <div className="card-body">
+                <StatBox stat_data={jsonData.stat_data} />
+              </div>
+            </div>
+          </div>
+          <div className="col">
+            <div className="card">
+              <div className="card-body">
+                <SingleLineChart
+                  title="stat_dist"
+                  labels={jsonData.chart_data.stat_dist.labels.map((item) =>
+                    item.toString()
+                  )}
+                  values={jsonData.chart_data.stat_dist.values}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="row mb-3">
+          <div className="col">
+            <div className="card">
+              <div className="card-body">
+                <DoubleLineChart
+                  title="class_based_dist"
+                  firstLine={jsonData.chart_data.class_based_dist[0].classname}
+                  secondLine={jsonData.chart_data.class_based_dist[1].classname}
+                  labels={["0", "1", "3", "4"]}
+                  valueSetOne={dictToArray(
+                    jsonData.chart_data.class_based_dist[0].data
+                  )}
+                  valueSetTwo={dictToArray(
+                    jsonData.chart_data.class_based_dist[1].data
+                  )}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="col">
+            <div className="card">
+              <div className="card-body">
+                <Table
+                  classTitles={colTitles}
+                  stat_by_class={jsonData.stat_by_class}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

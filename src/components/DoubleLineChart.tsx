@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { useCallback, useRef } from "react";
 
 ChartJS.register(
   CategoryScale,
@@ -68,9 +69,27 @@ const DoubleLineChart = ({
     },
   };
 
+  let chartRef = useRef(null);
+
+  const downloadImage = useCallback(() => {
+    if (chartRef.current != null) {
+      const link = document.createElement("a");
+      link.download = "chart.png";
+      link.href = chartRef.current.toBase64Image();
+      link.click();
+    }
+  }, []);
+
   return (
     <>
-      <Line options={options} data={data} />
+      <button
+        type="button"
+        className="btn btn-secondary"
+        onClick={downloadImage}
+      >
+        Download
+      </button>
+      <Line ref={chartRef} options={options} data={data} />
     </>
   );
 };

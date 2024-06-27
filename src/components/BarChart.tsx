@@ -8,6 +8,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { useRef, useCallback } from "react";
 
 ChartJS.register(
   CategoryScale,
@@ -51,9 +52,27 @@ function BarChart({ title, labels, values, yAxis = "" }: BarChartProp) {
     ],
   };
 
+  let chartRef = useRef(null);
+
+  const downloadImage = useCallback(() => {
+    if (chartRef.current != null) {
+      const link = document.createElement("a");
+      link.download = "chart.png";
+      link.href = chartRef.current.toBase64Image();
+      link.click();
+    }
+  }, []);
+
   return (
     <>
-      <Bar options={options} data={chartData} />
+      <button
+        type="button"
+        className="btn btn-secondary"
+        onClick={downloadImage}
+      >
+        Download
+      </button>
+      <Bar ref={chartRef} options={options} data={chartData} />
     </>
   );
 }
