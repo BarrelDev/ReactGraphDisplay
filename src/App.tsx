@@ -1,3 +1,10 @@
+import { useRef, useCallback } from "react";
+
+// @ts-ignore
+import { useScreenshot } from "use-react-screenshot";
+
+import jsPDF from "jspdf";
+
 import "./App.css";
 
 import BarChart from "./components/BarChart";
@@ -8,6 +15,17 @@ import StatBox from "./components/StatBox";
 import DoubleLineChart from "./components/DoubleLineChart";
 
 function App() {
+  const ref = useRef(null);
+  const [image, takeScreenshot] = useScreenshot();
+  const getImage = () => takeScreenshot(ref.current);
+
+  const download = (image: any) => {
+    const doc = new jsPDF();
+    doc.text("Chart Report", 25, 160, null, 90, 'center');
+    doc.addImage(image, "PNG", 175, 155, 290, 140, "reportImage", "NONE", 90);
+    doc.save("report.pdf");
+  };
+  const downloadScreenshot = () => takeScreenshot(ref.current).then(download);
   let jsonData = {
     chart_data: {
       class_dist: { labels: ["A", "B"], values: [30, 70] },
@@ -38,9 +56,8 @@ function App() {
 
   return (
     <div className="align-middle">
-      <Navbar title="Graphs" />
-
-      <div className="container-fluid overflow-hidden text-center">
+      <Navbar title="Graphs" getImage={downloadScreenshot} />
+      <div className="container-fluid overflow-hidden text-center" ref={ref}>
         <div className="row mb-3">
           <div className="col">
             <div className="card">
